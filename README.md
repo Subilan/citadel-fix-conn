@@ -17,7 +17,7 @@ try {
          return new BufferedReader(reader);
 ```
 
-The modification mainly focuses on the timeout of its method `com.github.alexthe666.citadel.web.WebHelper.getURLContents`. In this repository, the timeout `ConnectTimeout` and `ReadTimeout` are both set to 2000 milliseconds. Just feel free to set them to other preferred values before you build your own version.
+The modification mainly focuses on the timeout of its method `com.github.alexthe666.citadel.web.WebHelper.getURLContents`. In this repository, the timeout `ConnectTimeout` and `ReadTimeout` are both set to 3000 milliseconds. Just feel free to set them to other preferred values before you build your own version.
 
 ## About the Project
 
