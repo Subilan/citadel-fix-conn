@@ -3,79 +3,88 @@ package com.github.alexthe666.citadel.client.model.container;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author gegy1000
+ * @since 1.0.0
+ */
 public class TabulaAnimationComponentContainer {
-   private String name;
-   private String identifier;
-   private int startKey;
-   private int length;
-   private double[] posChange = new double[3];
-   private double[] rotChange = new double[3];
-   private double[] scaleChange = new double[3];
-   private double opacityChange;
-   private double[] posOffset = new double[3];
-   private double[] rotOffset = new double[3];
-   private double[] scaleOffset = new double[3];
-   private double opacityOffset;
-   private List<double[]> progressionCoords = new ArrayList<>();
-   private boolean hidden;
+    private String name;
+    private String identifier;
 
-   public String getName() {
-      return this.name;
-   }
+    private int startKey;
+    private int length;
 
-   public String getIdentifier() {
-      return this.identifier;
-   }
+    private double[] posChange = new double[3];
+    private double[] rotChange = new double[3];
+    private double[] scaleChange = new double[3];
+    private double opacityChange;
 
-   public int getStartKey() {
-      return this.startKey;
-   }
+    private double[] posOffset = new double[3];
+    private double[] rotOffset = new double[3];
+    private double[] scaleOffset = new double[3];
+    private double opacityOffset;
 
-   public int getEndKey() {
-      return this.startKey + this.length;
-   }
+    private List<double[]> progressionCoords = new ArrayList<>();
 
-   public int getLength() {
-      return this.length;
-   }
+    private boolean hidden;
 
-   public double[] getPositionChange() {
-      return this.posChange;
-   }
+    public String getName() {
+        return this.name;
+    }
 
-   public double[] getRotationChange() {
-      return this.rotChange;
-   }
+    public String getIdentifier() {
+        return this.identifier;
+    }
 
-   public double[] getScaleChange() {
-      return this.scaleChange;
-   }
+    public int getStartKey() {
+        return this.startKey;
+    }
 
-   public double getOpacityChange() {
-      return this.opacityChange;
-   }
+    public int getEndKey() {
+        return this.startKey + this.length;
+    }
 
-   public double[] getPositionOffset() {
-      return this.posOffset;
-   }
+    public int getLength() {
+        return this.length;
+    }
 
-   public double[] getRotationOffset() {
-      return this.rotOffset;
-   }
+    public double[] getPositionChange() {
+        return this.posChange;
+    }
 
-   public double[] getScaleOffset() {
-      return this.scaleOffset;
-   }
+    public double[] getRotationChange() {
+        return this.rotChange;
+    }
 
-   public double getOpacityOffset() {
-      return this.opacityOffset;
-   }
+    public double[] getScaleChange() {
+        return this.scaleChange;
+    }
 
-   public List<double[]> getProgressionCoords() {
-      return this.progressionCoords;
-   }
+    public double getOpacityChange() {
+        return this.opacityChange;
+    }
 
-   public boolean isHidden() {
-      return this.hidden;
-   }
+    public double[] getPositionOffset() {
+        return this.posOffset;
+    }
+
+    public double[] getRotationOffset() {
+        return this.rotOffset;
+    }
+
+    public double[] getScaleOffset() {
+        return this.scaleOffset;
+    }
+
+    public double getOpacityOffset() {
+        return this.opacityOffset;
+    }
+
+    public List<double[]> getProgressionCoords() {
+        return this.progressionCoords;
+    }
+
+    public boolean isHidden() {
+        return this.hidden;
+    }
 }

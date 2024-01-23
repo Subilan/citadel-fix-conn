@@ -3,35 +3,41 @@ package com.github.alexthe666.citadel.client.model.container;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author gegy1000
+ * @since 1.0.0
+ */
 public class TabulaCubeGroupContainer {
-   private String name;
-   private String identifier;
-   private List<TabulaCubeContainer> cubes = new ArrayList<>();
-   private List<TabulaCubeGroupContainer> cubeGroups = new ArrayList<>();
-   private boolean txMirror;
-   private boolean hidden;
+    private String name;
+    private String identifier;
 
-   public String getName() {
-      return this.name;
-   }
+    private List<TabulaCubeContainer> cubes = new ArrayList<>();
+    private List<TabulaCubeGroupContainer> cubeGroups = new ArrayList<>();
 
-   public String getIdentifier() {
-      return this.identifier;
-   }
+    private boolean txMirror;
+    private boolean hidden;
 
-   public List<TabulaCubeContainer> getCubes() {
-      return this.cubes;
-   }
+    public String getName() {
+        return this.name;
+    }
 
-   public List<TabulaCubeGroupContainer> getCubeGroups() {
-      return this.cubeGroups;
-   }
+    public String getIdentifier() {
+        return this.identifier;
+    }
 
-   public boolean isTextureMirrorEnabled() {
-      return this.txMirror;
-   }
+    public List<TabulaCubeContainer> getCubes() {
+        return this.cubes;
+    }
 
-   public boolean isHidden() {
-      return this.hidden;
-   }
+    public List<TabulaCubeGroupContainer> getCubeGroups() {
+        return this.cubeGroups;
+    }
+
+    public boolean isTextureMirrorEnabled() {
+        return this.txMirror;
+    }
+
+    public boolean isHidden() {
+        return this.hidden;
+    }
 }

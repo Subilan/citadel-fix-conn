@@ -1,77 +1,75 @@
 package com.github.alexthe666.citadel.server.entity.collision;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.material.Material;
-import net.minecraft.pathfinding.PathNodeType;
-import net.minecraft.pathfinding.WalkNodeProcessor;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockPos.Mutable;
-import net.minecraft.world.IBlockReader;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.pathfinder.BlockPathTypes;
+import net.minecraft.world.level.pathfinder.WalkNodeEvaluator;
 
-public class CustomCollisionsNodeProcessor extends WalkNodeProcessor {
-   public static PathNodeType func_237231_a_(IBlockReader p_237231_0_, Mutable p_237231_1_) {
-      int i = p_237231_1_.getX();
-      int j = p_237231_1_.getY();
-      int k = p_237231_1_.getZ();
-      PathNodeType pathnodetype = getNodes(p_237231_0_, p_237231_1_);
-      if (pathnodetype == PathNodeType.OPEN && j >= 1) {
-         PathNodeType pathnodetype1 = getNodes(p_237231_0_, p_237231_1_.setPos(i, j - 1, k));
-         pathnodetype = pathnodetype1 != PathNodeType.WALKABLE
-               && pathnodetype1 != PathNodeType.OPEN
-               && pathnodetype1 != PathNodeType.WATER
-               && pathnodetype1 != PathNodeType.LAVA
-            ? PathNodeType.WALKABLE
-            : PathNodeType.OPEN;
-         if (pathnodetype1 == PathNodeType.DAMAGE_FIRE) {
-            pathnodetype = PathNodeType.DAMAGE_FIRE;
-         }
+public class CustomCollisionsNodeProcessor extends WalkNodeEvaluator {
 
-         if (pathnodetype1 == PathNodeType.DAMAGE_CACTUS) {
-            pathnodetype = PathNodeType.DAMAGE_CACTUS;
-         }
+    public CustomCollisionsNodeProcessor() {
+    }
 
-         if (pathnodetype1 == PathNodeType.DAMAGE_OTHER) {
-            pathnodetype = PathNodeType.DAMAGE_OTHER;
-         }
+    public static BlockPathTypes getBlockPathTypeStatic(BlockGetter p_237231_0_, BlockPos.MutableBlockPos p_237231_1_) {
+        int i = p_237231_1_.getX();
+        int j = p_237231_1_.getY();
+        int k = p_237231_1_.getZ();
+        BlockPathTypes pathnodetype = getNodes(p_237231_0_, p_237231_1_);
+        if (pathnodetype == BlockPathTypes.OPEN && j >= 1) {
+            BlockPathTypes pathnodetype1 = getNodes(p_237231_0_, p_237231_1_.set(i, j - 1, k));
+            pathnodetype = pathnodetype1 != BlockPathTypes.WALKABLE && pathnodetype1 != BlockPathTypes.OPEN && pathnodetype1 != BlockPathTypes.WATER && pathnodetype1 != BlockPathTypes.LAVA ? BlockPathTypes.WALKABLE : BlockPathTypes.OPEN;
+            if (pathnodetype1 == BlockPathTypes.DAMAGE_FIRE) {
+                pathnodetype = BlockPathTypes.DAMAGE_FIRE;
+            }
 
-         if (pathnodetype1 == PathNodeType.STICKY_HONEY) {
-            pathnodetype = PathNodeType.STICKY_HONEY;
-         }
-      }
+            if (pathnodetype1 == BlockPathTypes.DAMAGE_CACTUS) {
+                pathnodetype = BlockPathTypes.DAMAGE_CACTUS;
+            }
 
-      if (pathnodetype == PathNodeType.WALKABLE) {
-         pathnodetype = getSurroundingDanger(p_237231_0_, p_237231_1_.setPos(i, j, k), pathnodetype);
-      }
+            if (pathnodetype1 == BlockPathTypes.DAMAGE_OTHER) {
+                pathnodetype = BlockPathTypes.DAMAGE_OTHER;
+            }
 
-      return pathnodetype;
-   }
+            if (pathnodetype1 == BlockPathTypes.STICKY_HONEY) {
+                pathnodetype = BlockPathTypes.STICKY_HONEY;
+            }
+        }
 
-   protected static PathNodeType getNodes(IBlockReader p_237238_0_, BlockPos p_237238_1_) {
-      BlockState blockstate = p_237238_0_.getBlockState(p_237238_1_);
-      PathNodeType type = blockstate.getAiPathNodeType(p_237238_0_, p_237238_1_);
-      if (type != null) {
-         return type;
-      } else {
-         Block block = blockstate.getBlock();
-         Material material = blockstate.getMaterial();
-         if (blockstate.isAir(p_237238_0_, p_237238_1_)) {
-            return PathNodeType.OPEN;
-         } else {
-            return blockstate.getBlock() == Blocks.BAMBOO ? PathNodeType.OPEN : func_237238_b_(p_237238_0_, p_237238_1_);
-         }
-      }
-   }
+        if (pathnodetype == BlockPathTypes.WALKABLE) {
+            pathnodetype = checkNeighbourBlocks(p_237231_0_, p_237231_1_.set(i, j, k), pathnodetype);
+        }
 
-   public PathNodeType getFloorNodeType(IBlockReader blockaccessIn, int x, int y, int z) {
-      return func_237231_a_(blockaccessIn, new Mutable(x, y, z));
-   }
+        return pathnodetype;
+    }
 
-   protected PathNodeType refineNodeType(IBlockReader world, boolean b1, boolean b2, BlockPos pos, PathNodeType nodeType) {
-      BlockState state = world.getBlockState(pos);
-      return ((ICustomCollisions)this.entity).canPassThrough(pos, state, state.getCollisionShape(world, pos))
-         ? PathNodeType.OPEN
-         : super.refineNodeType(world, b1, b2, pos, nodeType);
-   }
+
+    protected static BlockPathTypes getNodes(BlockGetter p_237238_0_, BlockPos p_237238_1_) {
+        BlockState blockstate = p_237238_0_.getBlockState(p_237238_1_);
+        BlockPathTypes type = blockstate.getBlockPathType(p_237238_0_, p_237238_1_, null);
+        if (type != null) return type;
+        Block block = blockstate.getBlock();
+        Material material = blockstate.getMaterial();
+        if (blockstate.isAir()) {
+            return BlockPathTypes.OPEN;
+        } else if (blockstate.getBlock() == Blocks.BAMBOO) {
+            return BlockPathTypes.OPEN;
+        } else {
+            return getBlockPathTypeRaw(p_237238_0_, p_237238_1_);
+        }
+    }
+
+    @Override
+    public BlockPathTypes getBlockPathType(BlockGetter blockaccessIn, int x, int y, int z) {
+        return getBlockPathTypeStatic(blockaccessIn, new BlockPos.MutableBlockPos(x, y, z));
+    }
+
+    @Override
+    protected BlockPathTypes evaluateBlockPathType(BlockGetter world, boolean b1, boolean b2, BlockPos pos, BlockPathTypes nodeType) {
+        BlockState state = world.getBlockState(pos);
+        return ((ICustomCollisions) this.mob).canPassThrough(pos, state, state.getBlockSupportShape(world, pos)) ? BlockPathTypes.OPEN : super.evaluateBlockPathType(world, b1, b2, pos, nodeType);
+    }
 }

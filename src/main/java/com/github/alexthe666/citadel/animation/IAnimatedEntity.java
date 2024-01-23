@@ -1,15 +1,41 @@
 package com.github.alexthe666.citadel.animation;
 
+/**
+ * @author Alexthe666
+ * @since 1.0.0
+ */
 public interface IAnimatedEntity {
-   Animation NO_ANIMATION = Animation.create(0);
+    /**
+     * An empty model container.
+     */
+    Animation NO_ANIMATION = Animation.create(0);
 
-   int getAnimationTick();
+    /**
+     * @return the current model tick
+     */
+    int getAnimationTick();
 
-   void setAnimationTick(int var1);
+    /**
+     * Sets the current model tick to the given value.
+     *
+     * @param tick the new tick
+     */
+    void setAnimationTick(int tick);
 
-   Animation getAnimation();
+    /**
+     * @return the current playing model
+     */
+    Animation getAnimation();
 
-   void setAnimation(Animation var1);
+    /**
+     * Sets the currently playing model.
+     *
+     * @param animation the new model
+     */
+    void setAnimation(Animation animation);
 
-   Animation[] getAnimations();
+    /**
+     * @return an array of all the Animations this entity can play
+     */
+    Animation[] getAnimations();
 }

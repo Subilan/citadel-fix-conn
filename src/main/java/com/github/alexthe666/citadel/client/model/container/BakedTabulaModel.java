@@ -2,59 +2,66 @@ package com.github.alexthe666.citadel.client.model.container;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import java.util.List;
-import java.util.Random;
-import javax.annotation.Nullable;
-import net.minecraft.block.BlockState;
-import net.minecraft.client.renderer.model.BakedQuad;
-import net.minecraft.client.renderer.model.IBakedModel;
-import net.minecraft.client.renderer.model.ItemCameraTransforms;
-import net.minecraft.client.renderer.model.ItemOverrideList;
-import net.minecraft.client.renderer.model.ItemCameraTransforms.TransformType;
+import com.mojang.math.Transformation;
+import net.minecraft.client.renderer.block.model.BakedQuad;
+import net.minecraft.client.renderer.block.model.ItemOverrides;
+import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.vector.TransformationMatrix;
+import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.core.Direction;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.block.state.BlockState;
 
-public class BakedTabulaModel implements IBakedModel {
-   private ImmutableList<BakedQuad> quads;
-   private TextureAtlasSprite particle;
-   private ImmutableMap<TransformType, TransformationMatrix> transforms;
+import java.util.List;
 
-   public BakedTabulaModel(ImmutableList<BakedQuad> quads, TextureAtlasSprite particle, ImmutableMap<TransformType, TransformationMatrix> transforms) {
-      this.quads = quads;
-      this.particle = particle;
-      this.transforms = transforms;
-   }
+public class BakedTabulaModel implements BakedModel {
+    private final ImmutableList<BakedQuad> quads;
+    private final TextureAtlasSprite particle;
+    private final ImmutableMap<ItemTransforms.TransformType, Transformation> transforms;
 
-   public List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction side, Random rand) {
-      return this.quads;
-   }
+    public BakedTabulaModel(ImmutableList<BakedQuad> quads, TextureAtlasSprite particle, ImmutableMap<ItemTransforms.TransformType, Transformation> transforms) {
+        this.quads = quads;
+        this.particle = particle;
+        this.transforms = transforms;
+    }
 
-   public boolean isAmbientOcclusion() {
-      return true;
-   }
+    @Override
+    public List<BakedQuad> getQuads(@org.jetbrains.annotations.Nullable BlockState p_235039_, @org.jetbrains.annotations.Nullable Direction p_235040_, RandomSource p_235041_) {
+        return this.quads;
+    }
 
-   public boolean isGui3d() {
-      return false;
-   }
+    @Override
+    public boolean useAmbientOcclusion() {
+        return true;
+    }
 
-   public boolean isSideLit() {
-      return false;
-   }
+    @Override
+    public boolean isGui3d() {
+        return false;
+    }
 
-   public boolean isBuiltInRenderer() {
-      return false;
-   }
+    @Override
+    public boolean usesBlockLight() {
+        return false;
+    }
 
-   public TextureAtlasSprite getParticleTexture() {
-      return this.particle;
-   }
+    @Override
+    public boolean isCustomRenderer() {
+        return false;
+    }
 
-   public ItemCameraTransforms getItemCameraTransforms() {
-      return ItemCameraTransforms.DEFAULT;
-   }
+    @Override
+    public TextureAtlasSprite getParticleIcon() {
+        return this.particle;
+    }
 
-   public ItemOverrideList getOverrides() {
-      return ItemOverrideList.EMPTY;
-   }
+    @Override
+    public ItemTransforms getTransforms() {
+        return ItemTransforms.NO_TRANSFORMS;
+    }
+
+    @Override
+    public ItemOverrides getOverrides() {
+        return ItemOverrides.EMPTY;
+    }
 }

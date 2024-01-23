@@ -1,65 +1,71 @@
 package com.github.alexthe666.citadel.server.item;
 
-import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.IArmorMaterial;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.util.SoundEvent;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.ArmorMaterial;
+import net.minecraft.world.item.crafting.Ingredient;
 
-public class CustomArmorMaterial implements IArmorMaterial {
-   private String name;
-   private int durability;
-   private int[] damageReduction;
-   private int encantability;
-   private SoundEvent sound;
-   private float toughness;
-   private Ingredient ingredient = null;
-   public float knockbackResistance = 0.0F;
+public class CustomArmorMaterial implements ArmorMaterial {
+    private String name;
+    private int durability;
+    private int[] damageReduction;
+    private int encantability;
+    private SoundEvent sound;
+    private float toughness;
+    private Ingredient ingredient = null;
+    public float knockbackResistance = 0.0F;
 
-   public CustomArmorMaterial(
-      String name, int durability, int[] damageReduction, int encantability, SoundEvent sound, float toughness, float knockbackResistance
-   ) {
-      this.name = name;
-      this.durability = durability;
-      this.damageReduction = damageReduction;
-      this.encantability = encantability;
-      this.sound = sound;
-      this.toughness = toughness;
-      this.knockbackResistance = knockbackResistance;
-   }
+    public CustomArmorMaterial(String name, int durability, int[] damageReduction, int encantability, SoundEvent sound, float toughness, float knockbackResistance) {
+        this.name = name;
+        this.durability = durability;
+        this.damageReduction = damageReduction;
+        this.encantability = encantability;
+        this.sound = sound;
+        this.toughness = toughness;
+        this.knockbackResistance = knockbackResistance;
+    }
 
-   public int getDurability(EquipmentSlotType slotIn) {
-      return this.durability;
-   }
+    @Override
+    public int getDurabilityForSlot(EquipmentSlot slotIn) {
+        return durability;
+    }
 
-   public int getDamageReductionAmount(EquipmentSlotType slotIn) {
-      return this.damageReduction[slotIn.getIndex()];
-   }
+    @Override
+    public int getDefenseForSlot(EquipmentSlot slotIn) {
+        return damageReduction[slotIn.getIndex()];
+    }
 
-   public int getEnchantability() {
-      return this.encantability;
-   }
+    @Override
+    public int getEnchantmentValue() {
+        return encantability;
+    }
 
-   public SoundEvent getSoundEvent() {
-      return this.sound;
-   }
+    @Override
+    public SoundEvent getEquipSound() {
+        return sound;
+    }
 
-   public Ingredient getRepairMaterial() {
-      return this.ingredient == null ? Ingredient.EMPTY : this.ingredient;
-   }
+    @Override
+    public Ingredient getRepairIngredient() {
+        return ingredient == null ? Ingredient.EMPTY : ingredient;
+    }
 
-   public void setRepairMaterial(Ingredient ingredient) {
-      this.ingredient = ingredient;
-   }
+    public void setRepairMaterial(Ingredient ingredient){
+        this.ingredient = ingredient;
+    }
 
-   public String getName() {
-      return this.name;
-   }
+    @Override
+    public String getName() {
+        return name;
+    }
 
-   public float getToughness() {
-      return this.toughness;
-   }
+    @Override
+    public float getToughness() {
+        return toughness;
+    }
 
-   public float getKnockbackResistance() {
-      return this.knockbackResistance;
-   }
+    @Override
+    public float getKnockbackResistance() {
+        return knockbackResistance;
+    }
 }

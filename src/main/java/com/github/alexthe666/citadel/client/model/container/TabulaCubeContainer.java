@@ -3,105 +3,99 @@ package com.github.alexthe666.citadel.client.model.container;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author gegy1000
+ * @since 1.0.0
+ */
 public class TabulaCubeContainer {
-   private String name;
-   private String identifier;
-   private String parentIdentifier;
-   private int[] dimensions = new int[3];
-   private double[] position = new double[3];
-   private double[] offset = new double[3];
-   private double[] rotation = new double[3];
-   private double[] scale = new double[3];
-   private int[] txOffset = new int[2];
-   private boolean txMirror;
-   private double mcScale = 1.0;
-   private double opacity = 100.0;
-   private boolean hidden;
-   private List<TabulaCubeContainer> children = new ArrayList<>();
+    private String name;
+    private String identifier;
+    private String parentIdentifier;
 
-   public TabulaCubeContainer(
-      String name,
-      String identifier,
-      String parentIdentifier,
-      int[] dimensions,
-      double[] position,
-      double[] offset,
-      double[] rotation,
-      double[] scale,
-      int[] textureOffset,
-      boolean textureMirror,
-      double opacity,
-      double mcScale,
-      boolean hidden
-   ) {
-      this.name = name;
-      this.identifier = identifier;
-      this.parentIdentifier = parentIdentifier;
-      this.dimensions = dimensions;
-      this.position = position;
-      this.offset = offset;
-      this.rotation = rotation;
-      this.scale = scale;
-      this.txOffset = textureOffset;
-      this.txMirror = textureMirror;
-      this.opacity = opacity;
-      this.mcScale = mcScale;
-      this.hidden = hidden;
-   }
+    private int[] dimensions = new int[3];
+    private double[] position = new double[3];
+    private double[] offset = new double[3];
+    private double[] rotation = new double[3];
+    private double[] scale = new double[3];
 
-   public String getName() {
-      return this.name;
-   }
+    private int[] txOffset = new int[2];
+    private boolean txMirror;
 
-   public String getIdentifier() {
-      return this.identifier;
-   }
+    private double mcScale = 1.0;
+    private double opacity = 100.0;
+    private boolean hidden;
 
-   public String getParentIdentifier() {
-      return this.parentIdentifier;
-   }
+    private List<TabulaCubeContainer> children = new ArrayList<>();
 
-   public int[] getDimensions() {
-      return this.dimensions;
-   }
+    public TabulaCubeContainer(String name, String identifier, String parentIdentifier, int[] dimensions, double[] position, double[] offset, double[] rotation, double[] scale, int[] textureOffset, boolean textureMirror, double opacity, double mcScale, boolean hidden) {
+        this.name = name;
+        this.identifier = identifier;
+        this.parentIdentifier = parentIdentifier;
+        this.dimensions = dimensions;
+        this.position = position;
+        this.offset = offset;
+        this.rotation = rotation;
+        this.scale = scale;
+        this.txOffset = textureOffset;
+        this.txMirror = textureMirror;
+        this.opacity = opacity;
+        this.mcScale = mcScale;
+        this.hidden = hidden;
+    }
 
-   public double[] getPosition() {
-      return this.position;
-   }
+    public String getName() {
+        return this.name;
+    }
 
-   public double[] getOffset() {
-      return this.offset;
-   }
+    public String getIdentifier() {
+        return this.identifier;
+    }
 
-   public double[] getRotation() {
-      return this.rotation;
-   }
+    public String getParentIdentifier() {
+        return this.parentIdentifier;
+    }
 
-   public double[] getScale() {
-      return this.scale;
-   }
+    public int[] getDimensions() {
+        return this.dimensions;
+    }
 
-   public int[] getTextureOffset() {
-      return this.txOffset;
-   }
+    public double[] getPosition() {
+        return this.position;
+    }
 
-   public boolean isTextureMirrorEnabled() {
-      return this.txMirror;
-   }
+    public double[] getOffset() {
+        return this.offset;
+    }
 
-   public double getMCScale() {
-      return this.mcScale;
-   }
+    public double[] getRotation() {
+        return this.rotation;
+    }
 
-   public double getOpacity() {
-      return this.opacity;
-   }
+    public double[] getScale() {
+        return this.scale;
+    }
 
-   public boolean isHidden() {
-      return this.hidden;
-   }
+    public int[] getTextureOffset() {
+        return this.txOffset;
+    }
 
-   public List<TabulaCubeContainer> getChildren() {
-      return this.children;
-   }
+    public boolean isTextureMirrorEnabled() {
+        return this.txMirror;
+    }
+
+    public double getMCScale() {
+        return this.mcScale;
+    }
+
+    public double getOpacity() {
+        return this.opacity;
+    }
+
+    public boolean isHidden() {
+        return this.hidden;
+    }
+
+    public List<TabulaCubeContainer> getChildren() {
+        return this.children;
+    }
 }
