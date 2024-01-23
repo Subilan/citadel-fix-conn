@@ -29,11 +29,11 @@ We all know most of the mods can totally work perfectly without any Internet con
 
 However, sometimes we can also see web requests done synchronously, [as in Citadel](https://github.com/AlexModGuy/Citadel/blob/master/src/main/java/com/github/alexthe666/citadel/web/WebHelper.java). The difference it made can be subtle if the quality connection is quite high, but it can also block the whole startup process [for over 10 minutes](https://github.com/AlexModGuy/Citadel/issues/145) if there's some limit in the connection or the quality is poor.
 
-It's OK for local players or online clients, because the former barely experience *that* poor Internet connection at home or other places suitable for gaming, or they can just think it as some sort of lag instead of thread blocking caused by Internet connection. And the latter will not see any of the problem at all, because the whole process is done on  server startup. *However, if it's not done on startup but in game running, the server might be unprecedentedly disappointing because the whole world will then lag randomly, depending on the network quality.*
+It's OK for local players or online clients, because the former barely experience *that* poor Internet connection at home or other places suitable for gaming, or they can just think it as some sort of lag instead of thread blocking caused by Internet connection. And the latter will not see any of the problem at all, because the whole process is done on  server startup. **However, if it's not done on startup but in game running, the server might be unprecedentedly disappointing because the whole world will then lag randomly, depending on the network quality.**
 
 Considering the Internet connection quality varies among servers  and actually the blocking of startup is unreasonable and time-wasting, this project helps server owners with similar issues get the version _with_ the timeout. And 3 seconds (by default) is quite enough for minor web requests.
 
-## Where Does the Project Structure From?
+## Where Does the Project Structure Come From?
 
 For previous versions of Citadel (e.g. 1.16.5), the  structure is based on the Forge MDK of the corresponding Minecraft version. The complete code is attained from decompiling the `deobf`ed file provided in [Curseforge download page](https://www.curseforge.com/minecraft/mc-mods/citadel/files), using [Vineflower](https://github.com/Vineflower/vineflower) decompiler.
 
