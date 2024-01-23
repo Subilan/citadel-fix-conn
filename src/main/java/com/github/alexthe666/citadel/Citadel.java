@@ -2,6 +2,7 @@ package com.github.alexthe666.citadel;
 
 import com.github.alexthe666.citadel.config.ConfigHolder;
 import com.github.alexthe666.citadel.config.ServerConfig;
+import com.github.alexthe666.citadel.config.biome.CitadelBiomeDefinitions;
 import com.github.alexthe666.citadel.item.ItemCitadelBook;
 import com.github.alexthe666.citadel.item.ItemCitadelDebug;
 import com.github.alexthe666.citadel.item.ItemCustomRender;
@@ -10,6 +11,7 @@ import com.github.alexthe666.citadel.server.block.CitadelLecternBlock;
 import com.github.alexthe666.citadel.server.block.CitadelLecternBlockEntity;
 import com.github.alexthe666.citadel.server.block.LecternBooks;
 import com.github.alexthe666.citadel.server.generation.SpawnProbabilityModifier;
+import com.github.alexthe666.citadel.server.generation.SurfaceRulesManager;
 import com.github.alexthe666.citadel.server.generation.VillageHouseManager;
 import com.github.alexthe666.citadel.server.message.AnimationMessage;
 import com.github.alexthe666.citadel.server.message.DanceJukeboxMessage;
@@ -22,19 +24,24 @@ import com.mojang.serialization.Codec;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.entity.LecternBlockEntity;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.dimension.LevelStem;
+import net.minecraft.world.level.levelgen.SurfaceRules;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.world.BiomeModifier;
 import net.minecraftforge.event.server.ServerAboutToStartEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
@@ -59,6 +66,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.lang.ref.Reference;
 import java.util.*;
 
 ;
@@ -177,16 +185,18 @@ public class Citadel {
     public void onServerAboutToStart(ServerAboutToStartEvent event) {
         RegistryAccess registryAccess = event.getServer().registryAccess();
         VillageHouseManager.addAllHouses(registryAccess);
-        Registry<Biome> allBiomes = registryAccess.registryOrThrow(Registry.BIOME_REGISTRY);
+        Registry<Biome> allBiomes = registryAccess.registryOrThrow(Registries.BIOME);
+        Registry<LevelStem> levelStems = registryAccess.registryOrThrow(Registries.LEVEL_STEM);
         Map<ResourceKey<Biome>, Holder<Biome>> biomeMap = new HashMap<>();
         for(ResourceKey<Biome> biomeResourceKey : allBiomes.registryKeySet()){
-            Optional<Holder<Biome>> holderOptional = allBiomes.getHolder(biomeResourceKey);
+            Optional<Holder.Reference<Biome>> holderOptional = allBiomes.getHolder(biomeResourceKey);
             holderOptional.ifPresent(biomeHolder -> biomeMap.put(biomeResourceKey, biomeHolder));
         }
-        for (Map.Entry<ResourceKey<LevelStem>, LevelStem> entry : event.getServer().getWorldData().worldGenSettings().dimensions().entrySet()) {
-            if(entry.getValue().generator().getBiomeSource() instanceof ExpandedBiomeSource expandedBiomeSource){
+        for (ResourceKey<LevelStem> levelStemResourceKey : levelStems.registryKeySet()) {
+            Optional<Holder.Reference<LevelStem>> holderOptional = levelStems.getHolder(levelStemResourceKey);
+            if(holderOptional.isPresent() && holderOptional.get().value().generator().getBiomeSource() instanceof ExpandedBiomeSource expandedBiomeSource){
                 expandedBiomeSource.setResourceKeyMap(biomeMap);
-                Set<Holder<Biome>> biomeHolders = ExpandedBiomes.buildBiomeList(registryAccess, entry.getKey());
+                Set<Holder<Biome>> biomeHolders = ExpandedBiomes.buildBiomeList(registryAccess, levelStemResourceKey);
                 expandedBiomeSource.expandBiomesWith(biomeHolders);
             }
         }

@@ -2,22 +2,42 @@ package com.github.alexthe666.citadel;
 
 import com.github.alexthe666.citadel.server.entity.IDancesToJukebox;
 import com.github.alexthe666.citadel.server.event.EventChangeEntityTickRate;
-import com.github.alexthe666.citadel.server.tick.ServerTickRateTracker;
+import com.github.alexthe666.citadel.server.event.EventMergeStructureSpawns;
+import com.github.alexthe666.citadel.server.event.EventReplaceBiome;
+import com.github.alexthe666.citadel.server.generation.SurfaceRulesManager;
 import com.github.alexthe666.citadel.server.world.CitadelServerData;
+import com.github.alexthe666.citadel.server.world.ExpandedBiomeSource;
 import com.github.alexthe666.citadel.server.world.ModifiableTickRateServer;
+import com.github.alexthe666.citadel.server.tick.ServerTickRateTracker;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.core.Registry;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.biome.Biomes;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.dimension.LevelStem;
+import net.minecraft.world.level.levelgen.SurfaceRules;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.server.ServerAboutToStartEvent;
+import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ServerProxy {

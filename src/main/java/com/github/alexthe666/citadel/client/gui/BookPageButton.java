@@ -18,13 +18,13 @@ public class BookPageButton extends Button {
     private GuiBasicBook bookGUI;
 
     public BookPageButton(GuiBasicBook bookGUI, int p_i51079_1_, int p_i51079_2_, boolean p_i51079_3_, OnPress p_i51079_4_, boolean p_i51079_5_) {
-        super(p_i51079_1_, p_i51079_2_, 23, 13, CommonComponents.EMPTY, p_i51079_4_);
+        super(p_i51079_1_, p_i51079_2_, 23, 13, CommonComponents.EMPTY, p_i51079_4_, DEFAULT_NARRATION);
         this.isForward = p_i51079_3_;
         this.playTurnSound = p_i51079_5_;
         this.bookGUI = bookGUI;
     }
 
-    public void renderButton(PoseStack p_230431_1_, int p_230431_2_, int p_230431_3_, float p_230431_4_) {
+    public void renderWidget(PoseStack p_230431_1_, int p_230431_2_, int p_230431_3_, float p_230431_4_) {
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.setShaderTexture(0, bookGUI.getBookWidgetTexture());
@@ -41,14 +41,14 @@ public class BookPageButton extends Button {
         int g = (color & 0xFF00) >> 8;
         int b = (color & 0xFF);
         BookBlit.setRGB(r, g, b, 255);
-        drawNextArrow(p_230431_1_, this.x, this.y, lvt_5_1_, lvt_6_1_, 18, 12);
+        drawNextArrow(p_230431_1_, this.getX(), this.getY(), lvt_5_1_, lvt_6_1_, 18, 12);
     }
 
     public void drawNextArrow(PoseStack p_238474_1_, int p_238474_2_, int p_238474_3_, int p_238474_4_, int p_238474_5_, int p_238474_6_, int p_238474_7_) {
         if(this.isHovered){
-            BookBlit.blit(p_238474_1_, p_238474_2_, p_238474_3_, this.getBlitOffset(), (float)p_238474_4_, (float)p_238474_5_, p_238474_6_, p_238474_7_, 256, 256);
+            BookBlit.blit(p_238474_1_, p_238474_2_, p_238474_3_, 100, (float)p_238474_4_, (float)p_238474_5_, p_238474_6_, p_238474_7_, 256, 256);
         }else{
-            blit(p_238474_1_, p_238474_2_, p_238474_3_, this.getBlitOffset(), (float)p_238474_4_, (float)p_238474_5_, p_238474_6_, p_238474_7_, 256, 256);
+            blit(p_238474_1_, p_238474_2_, p_238474_3_, 100, (float)p_238474_4_, (float)p_238474_5_, p_238474_6_, p_238474_7_, 256, 256);
         }
     }
 

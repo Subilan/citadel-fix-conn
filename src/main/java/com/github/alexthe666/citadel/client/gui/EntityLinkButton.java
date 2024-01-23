@@ -25,12 +25,12 @@ public class EntityLinkButton extends Button {
     private final EnttyRenderWindow window = new EnttyRenderWindow();
 
     public EntityLinkButton(GuiBasicBook bookGUI, EntityLinkData linkData, int k, int l, Button.OnPress o) {
-        super(k + linkData.getX() - 12, l + linkData.getY(), (int) (24 * linkData.getScale()), (int) (24 * linkData.getScale()), CommonComponents.EMPTY, o);
+        super(k + linkData.getX() - 12, l + linkData.getY(), (int) (24 * linkData.getScale()), (int) (24 * linkData.getScale()), CommonComponents.EMPTY, o, DEFAULT_NARRATION);
         this.data = linkData;
         this.bookGUI = bookGUI;
     }
 
-    public void renderButton(PoseStack posestack, int mouseX, int mouseY, float partialTicks) {
+    public void renderWidget(PoseStack posestack, int mouseX, int mouseY, float partialTicks) {
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         int lvt_5_1_ = 0;
@@ -38,7 +38,7 @@ public class EntityLinkButton extends Button {
         float f = (float) data.getScale();
         RenderSystem.setShaderTexture(0, bookGUI.getBookWidgetTexture());
         posestack.pushPose();
-        posestack.translate(this.x, this.y, 0);
+        posestack.translate(this.getX(), this.getY(), 0);
         posestack.scale(f, f, 1);
         this.drawBtn(false, posestack, 0, 0, lvt_5_1_, lvt_6_1_, 24, 24);
         Entity model = null;
@@ -49,7 +49,7 @@ public class EntityLinkButton extends Button {
 
         posestack.pushPose();
         if (model != null) {
-            window.renderEntityWindow(posestack, x, y, model, (float) data.getEntityScale() * f, data.getOffset_x() * f, data.getOffset_y() * f, 2, 2, 22, 22);
+            window.renderEntityWindow(posestack, this.getX(), this.getY(), model, (float) data.getEntityScale() * f, data.getOffset_x() * f, data.getOffset_y() * f, 2, 2, 22, 22);
         }
         posestack.popPose();
         RenderSystem.depthFunc(515);
@@ -76,9 +76,9 @@ public class EntityLinkButton extends Button {
 
     public void drawBtn(boolean color, PoseStack p_238474_1_, int p_238474_2_, int p_238474_3_, int p_238474_4_, int p_238474_5_, int p_238474_6_, int p_238474_7_) {
         if (color) {
-            BookBlit.blit(p_238474_1_, p_238474_2_, p_238474_3_, this.getBlitOffset(), (float) p_238474_4_, (float) p_238474_5_, p_238474_6_, p_238474_7_, 256, 256);
+            BookBlit.blit(p_238474_1_, p_238474_2_, p_238474_3_, 0, (float) p_238474_4_, (float) p_238474_5_, p_238474_6_, p_238474_7_, 256, 256);
         } else {
-            blit(p_238474_1_, p_238474_2_, p_238474_3_, this.getBlitOffset(), (float) p_238474_4_, (float) p_238474_5_, p_238474_6_, p_238474_7_, 256, 256);
+            blit(p_238474_1_, p_238474_2_, p_238474_3_, 0, (float) p_238474_4_, (float) p_238474_5_, p_238474_6_, p_238474_7_, 256, 256);
         }
     }
 

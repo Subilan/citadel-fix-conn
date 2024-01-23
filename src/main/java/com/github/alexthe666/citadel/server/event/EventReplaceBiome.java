@@ -21,7 +21,10 @@ public class EventReplaceBiome extends Event {
     private int x;
     private int y;
     private int z;
-    public EventReplaceBiome(ExpandedBiomeSource biomeSource, Holder<Biome> biomeIn, int x, int y, int z, float continentalness, float erosion, float temperature, float humidity, float weirdness, float depth) {
+
+    private long worldSeed;
+
+    public EventReplaceBiome(ExpandedBiomeSource biomeSource, Holder<Biome> biomeIn, int x, int y, int z, float continentalness, float erosion, float temperature, float humidity, float weirdness, float depth, long worldSeed) {
         this.biomeSource = biomeSource;
         this.biomeToGenerate = biomeIn;
         this.continentalness = continentalness;
@@ -30,6 +33,7 @@ public class EventReplaceBiome extends Event {
         this.humidity = humidity;
         this.weirdness = weirdness;
         this.depth = depth;
+        this.worldSeed = worldSeed;
         this.x = x;
         this.y = y;
         this.z = z;
@@ -96,7 +100,19 @@ public class EventReplaceBiome extends Event {
         biomeToGenerate = biome;
     }
 
-    public BlockPos getSamplePosition(){
-        return new BlockPos(x, y, z);
+    public int getX(){
+        return x;
+    }
+
+    public int getY(){
+        return y;
+    }
+
+    public int getZ(){
+        return z;
+    }
+
+    public long getWorldSeed(){
+        return worldSeed;
     }
 }

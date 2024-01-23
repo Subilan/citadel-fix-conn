@@ -8,6 +8,7 @@ import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.*;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -25,9 +26,9 @@ public class VanillaTabulaModel implements UnbakedModel {
     private final TabulaModelContainer model;
     private final Material particle;
     private final Collection<Material> textures;
-    private final ImmutableMap<ItemTransforms.TransformType, Transformation> transforms;
+    private final ImmutableMap<ItemDisplayContext, Transformation> transforms;
 
-    public VanillaTabulaModel(TabulaModelContainer model, Material particle, ImmutableList<Material> textures, ImmutableMap<ItemTransforms.TransformType, Transformation> transforms) {
+    public VanillaTabulaModel(TabulaModelContainer model, Material particle, ImmutableList<Material> textures, ImmutableMap<ItemDisplayContext, Transformation> transforms) {
         this.model = model;
         this.particle = particle;
         this.textures = textures;
@@ -39,13 +40,13 @@ public class VanillaTabulaModel implements UnbakedModel {
     }
 
     @Override
-    public Collection<Material> getMaterials(Function<ResourceLocation, UnbakedModel> modelGetter, Set<Pair<String, String>> missingTextureErrors) {
-        return this.textures;
+    public void resolveParents(Function<ResourceLocation, UnbakedModel> p_119538_) {
+
     }
 
-    @Nullable
+    @org.jetbrains.annotations.Nullable
     @Override
-    public BakedModel bake(ModelBakery modelBakery, Function<Material, TextureAtlasSprite> function, ModelState iModelTransform, ResourceLocation resourceLocation) {
+    public BakedModel bake(ModelBaker p_250133_, Function<Material, TextureAtlasSprite> p_119535_, ModelState p_119536_, ResourceLocation p_119537_) {
         return null;
     }
 

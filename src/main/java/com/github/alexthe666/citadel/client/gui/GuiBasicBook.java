@@ -10,8 +10,9 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import com.mojang.math.Quaternion;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
+import org.joml.Quaternionf;
+import org.joml.Vector3f;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
@@ -98,20 +99,20 @@ public abstract class GuiBasicBook extends Screen {
         PoseStack matrixstack = new PoseStack();
         matrixstack.translate((float) posX, (float) posY, 120.0D);
         matrixstack.scale(scale, scale, scale);
-        Quaternion quaternion = Vector3f.ZP.rotationDegrees(0.0F);
-        Quaternion quaternion1 = Vector3f.XP.rotationDegrees(f1 * 20.0F);
+        Quaternionf quaternion = Axis.ZP.rotationDegrees(0.0F);
+        Quaternionf quaternion1 = Axis.XP.rotationDegrees(f1 * 20.0F);
         if (follow) {
             quaternion.mul(quaternion1);
         }
         matrixstack.mulPose(quaternion);
         if (follow) {
-            matrixstack.mulPose(Vector3f.YP.rotationDegrees(180.0F + f * 40.0F));
+            matrixstack.mulPose(Axis.YP.rotationDegrees(180.0F + f * 40.0F));
         }
-        matrixstack.mulPose(Vector3f.XP.rotationDegrees((float) -xRot));
-        matrixstack.mulPose(Vector3f.YP.rotationDegrees((float) yRot));
-        matrixstack.mulPose(Vector3f.ZP.rotationDegrees((float) zRot));
+        matrixstack.mulPose(Axis.XP.rotationDegrees((float) -xRot));
+        matrixstack.mulPose(Axis.YP.rotationDegrees((float) yRot));
+        matrixstack.mulPose(Axis.ZP.rotationDegrees((float) zRot));
         EntityRenderDispatcher entityrenderermanager = Minecraft.getInstance().getEntityRenderDispatcher();
-        quaternion1.conj();
+        quaternion1.conjugate();
         entityrenderermanager.overrideCameraOrientation(quaternion1);
         entityrenderermanager.setRenderShadow(false);
         MultiBufferSource.BufferSource irendertypebuffer$impl = Minecraft.getInstance().renderBuffers().bufferSource();
@@ -154,19 +155,19 @@ public abstract class GuiBasicBook extends Screen {
         PoseStack posestack1 = new PoseStack();
         posestack1.translate(0.0D, 0.0D, 1000.0D);
         posestack1.scale(scale, scale, scale);
-        Quaternion quaternion = Vector3f.ZP.rotationDegrees(180F);
-        Quaternion quaternion1 = Vector3f.XP.rotationDegrees(f1 * 20.0F);
+        Quaternionf quaternion = Axis.ZP.rotationDegrees(180F);
+        Quaternionf quaternion1 = Axis.XP.rotationDegrees(f1 * 20.0F);
         quaternion.mul(quaternion1);
-        quaternion.mul(Vector3f.XN.rotationDegrees((float) xRot));
-        quaternion.mul(Vector3f.YP.rotationDegrees((float) yRot));
-        quaternion.mul(Vector3f.ZP.rotationDegrees((float) zRot));
+        quaternion.mul(Axis.XN.rotationDegrees((float) xRot));
+        quaternion.mul(Axis.YP.rotationDegrees((float) yRot));
+        quaternion.mul(Axis.ZP.rotationDegrees((float) zRot));
         posestack1.mulPose(quaternion);
 
         Vector3f light0 = Util.make(new Vector3f(1, -1.0F, -1.0F), Vector3f::normalize);
         Vector3f light1 = Util.make(new Vector3f(-1, -1.0F, 1.0F), Vector3f::normalize);
         RenderSystem.setShaderLights(light0, light1);
         EntityRenderDispatcher entityrenderdispatcher = Minecraft.getInstance().getEntityRenderDispatcher();
-        quaternion1.conj();
+        quaternion1.conjugate();
         entityrenderdispatcher.overrideCameraOrientation(quaternion1);
         entityrenderdispatcher.setRenderShadow(false);
         MultiBufferSource.BufferSource multibuffersource$buffersource = Minecraft.getInstance().renderBuffers().bufferSource();
@@ -318,7 +319,7 @@ public abstract class GuiBasicBook extends Screen {
 
     private void refreshSpacing() {
         if (internalPage != null) {
-            String lang = Minecraft.getInstance().getLanguageManager().getSelected().getCode().toLowerCase();
+            String lang = Minecraft.getInstance().getLanguageManager().getSelected().toLowerCase();
             currentPageText = new ResourceLocation(getTextFileDirectory() + lang + "/" + internalPage.getTextFileToReadFrom());
             boolean invalid = false;
             try {
@@ -494,14 +495,12 @@ public abstract class GuiBasicBook extends Screen {
                         }
                         stack.setTag(tag);
                     }
-                    this.itemRenderer.blitOffset = 100.0F;
                     matrixStack.pushPose();
                     PoseStack poseStack = RenderSystem.getModelViewStack();
                     poseStack.pushPose();
                     poseStack.translate(k, l, 0);
                     poseStack.scale(scale, scale, scale);
-                    this.itemRenderer.renderAndDecorateItem(stack, itemRenderData.getX(), itemRenderData.getY());
-                    this.itemRenderer.blitOffset = 0.0F;
+                    this.itemRenderer.renderAndDecorateItem(new PoseStack(), stack, itemRenderData.getX(), itemRenderData.getY());
                     poseStack.popPose();
                     matrixStack.popPose();
                     RenderSystem.applyModelViewMatrix();
@@ -532,9 +531,7 @@ public abstract class GuiBasicBook extends Screen {
                 poseStack.translate(k, l, 32.0F);
                 poseStack.translate((int) (recipeData.getX() + (i % 3) * 20 * scale), (int) (recipeData.getY() + (i / 3) * 20 * scale), 0);
                 poseStack.scale(scale, scale, scale);
-                this.itemRenderer.blitOffset = 100.0F;
-                this.itemRenderer.renderAndDecorateItem(stack, 0, 0);
-                this.itemRenderer.blitOffset = 0.0F;
+                this.itemRenderer.renderAndDecorateItem(new PoseStack(), stack, 0, 0);
                 poseStack.popPose();
             }
             displayedStacks.add(i, stack);
@@ -544,13 +541,12 @@ public abstract class GuiBasicBook extends Screen {
         float finScale = scale * 1.5F;
         poseStack.translate(recipeData.getX() + 70 * finScale, recipeData.getY() + 10 * finScale, 0);
         poseStack.scale(finScale, finScale, finScale);
-        this.itemRenderer.blitOffset = 100.0F;
-        ItemStack result = recipe.getResultItem();
+        ItemStack result = recipe.getResultItem(Minecraft.getInstance().level.registryAccess());
         if(recipe instanceof SpecialRecipeInGuideBook){
             result = ((SpecialRecipeInGuideBook) recipe).getDisplayResultFor(displayedStacks);
         }
-        this.itemRenderer.renderAndDecorateItem(result, 0, 0);
-        this.itemRenderer.blitOffset = 0.0F;
+        poseStack.translate(0.0F, 0.0F, 100.0F);
+        this.itemRenderer.renderAndDecorateItem(new PoseStack(), result, 0, 0);
         poseStack.popPose();
     }
 
