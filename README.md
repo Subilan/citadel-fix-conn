@@ -25,7 +25,7 @@ This project's structure is based on the Forge MDK of the corresponding Minecraf
 
 ## Build
 
->![NOTE]
+>[!IMPORTANT]
 > To ensure you're using the right version of Gradle, please use the wrapped gradle (`./gradlew`) at repository root rather than your locally installed one.
 > 
 > Also, please make sure you have compatible version of Java installed for Gradle used to run the build task.
