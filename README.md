@@ -5,11 +5,13 @@ This is the unofficial modified version of [Citadel](https://github.com/AlexModG
 ## Modification Notes
 
 ```diff
+// WebHelper.java
+
 try {
          URL url = new URL(urlString);
          URLConnection connection = url.openConnection();
-+         connection.setConnectTimeout(3000);
-+         connection.setReadTimeout(3000);
++        connection.setConnectTimeout(3000);
++        connection.setReadTimeout(3000);
          InputStream stream = connection.getInputStream();
          InputStreamReader reader = new InputStreamReader(stream);
          return new BufferedReader(reader);
