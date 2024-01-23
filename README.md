@@ -1,6 +1,6 @@
 # citadel-fix-conn
 
-This is the unofficial modified version of [Citadel](https://github.com/AlexModGuy/citadel).
+This is the unofficial modified version of [Citadel](https://github.com/AlexModGuy/citadel). Downloads are available in [Releases](https://github.com/seatitanium/citadel-fix-conn/releases).
 
 ## Modification Notes
 
