@@ -48,6 +48,6 @@ Citadel code of different versions is placed under the respective branch. Firstl
 > 
 > Also, please make sure you have compatible version of Java installed for Gradle used to run the build task.
 
-## License´
+## License
 
 LGPL v3
